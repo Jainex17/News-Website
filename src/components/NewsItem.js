@@ -28,7 +28,7 @@ export default class NewsItem extends Component {
                 {new Date(date).toUTCString()}
               </small>
             </p>
-            <a href={url} className="btn btn-dark">
+            <a href={url} className="btn btn-dark " style={{ width: "100%" }}>
               Read
             </a>
           </div>
