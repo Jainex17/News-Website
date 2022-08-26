@@ -8,20 +8,23 @@ export default class News extends Component {
     super();
     this.state = {
       articles: [],
-      loading: false,
+      loading: true,
       page: 1,
       totalResults:0
     };
   }
   async updatenews(){
-    this.setState({loading:true});
+    this.props.setprogress(10);
     const url =
-      `https://newsapi.org/v2/top-headlines?country=${this.props.Country}&category=${this.props.Category}&apiKey=82f42241da1b471f9ab63c66164382b3&page=${this.state.page}&pagesize=${this.props.pageSize}`;
-    let data = await fetch(url);
-    let passdata = await data.json();
+      `https://newsapi.org/v2/top-headlines?country=${this.props.Country}&category=${this.props.Category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
+      this.setState({ loading:true });
+      let data = await fetch(url);
+      let passdata = await data.json();
+      this.props.setprogress(50);
     this.setState({ articles: passdata.articles,
        totalResults: passdata.totalResults,
       loading:false });
+      this.props.setprogress(100);
   }
   async componentDidMount() {
     this.updatenews();
@@ -44,15 +47,14 @@ export default class News extends Component {
     this.setState({
       page:this.state.page + 1
     })
-    this.setState({loading:true});
     const url =
-      `https://newsapi.org/v2/top-headlines?country=${this.props.Country}&category=${this.props.Category}&apiKey=82f42241da1b471f9ab63c66164382b3&page=${this.state.page}&pagesize=${this.props.pageSize}`;
+      `https://newsapi.org/v2/top-headlines?country=${this.props.Country}&category=${this.props.Category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
     let data = await fetch(url);
     let passdata = await data.json();
     this.setState({ 
         articles: this.state.articles.concat(passdata.articles),
-       totalResults: passdata.totalResults,
-      loading:false });
+       totalResults: passdata.totalResults
+       });
   };
 
 
@@ -61,8 +63,8 @@ export default class News extends Component {
       
       <>
         
-        <h1 className="text-center py-5" style={{marginTop:"40px"}}>NewsMonkey - Top Headlines</h1>
-        {/* {this.loading && <Loding/>} */}
+        <h1 className="text-center py-5" style={{marginTop:"40px"}}>NewsMonkey - Top {this.props.Category} Headlines</h1>
+        {this.state.loading && <Loding/>}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
