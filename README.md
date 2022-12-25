@@ -1,3 +1,11 @@
+# News Website
+
+It is a news website that pulls the most recent news from an API and allows users to filter news by categories and countries - React.JS, Javascript, HTML, CSS, Bootstrap
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
